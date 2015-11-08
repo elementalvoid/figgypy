@@ -47,7 +47,10 @@ class Config(object):
 
     def __init__(self, f):
         self._f = self._get_file(f)
-        self._cfg = self._get_cfg(self._f)
+        self._cfg, self._seria = self._get_cfg(self._f)
+
+    def __str__(self):
+        return self._seria.dump()
 
     def _get_cfg(self, f):
         """Get configuration from config file"""
@@ -66,7 +69,7 @@ class Config(object):
         for k, v in _cfg.items():
             setattr(self, k, v)
 
-        return _cfg
+        return (_cfg, _seria_in)
 
     def _decrypt_and_update(self, obj):
         """Decrypt and update configuration.
