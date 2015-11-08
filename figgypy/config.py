@@ -50,7 +50,27 @@ class Config(object):
         self._cfg, self._seria = self._get_cfg(self._f)
 
     def __str__(self):
-        return self._seria.dump()
+        return self._seria.dump(self._get_cfg_format())
+
+    def _get_cfg_format(self):
+        fmt = 'yaml'
+        if self._seria.is_json:
+            fmt = 'json'
+        elif self._seria.is_yaml:
+            fmt = 'yaml'
+        elif self._seria.is_xml:
+            fmt = 'xml'
+        return fmt
+
+    def print_config(self, decrypt=False):
+        fmt = self._get_cfg_format()
+        if decrypt:
+            c = StringIO()
+            c.write(str(self._cfg))
+            s = seria.load(c)
+            print s.dump(fmt)
+        else:
+            print self._seria.dump(fmt)
 
     def _get_cfg(self, f):
         """Get configuration from config file"""
