@@ -66,6 +66,8 @@ class Config(object):
         for k, v in _cfg.items():
             setattr(self, k, v)
 
+        return _cfg
+
     def _decrypt_and_update(self, obj):
         """Decrypt and update configuration.
 
